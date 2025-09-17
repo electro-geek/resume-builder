@@ -1,0 +1,198 @@
+%------------------------------------------------------------------------------
+% Resume in Latex - Jinja2 Template
+%------------------------------------------------------------------------------
+
+\documentclass[letterpaper,10pt]{article}
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{soul}
+\input{glyphtounicode}
+\usepackage[margin=0.5in]{geometry}
+
+%----------FONT OPTIONS----------
+\usepackage[default]{sourcesanspro}
+
+%----------PAGE SETUP------------------
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-5pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-4pt}]
+
+\pdfgentounicode=1
+
+% ----------- Definitions -----------------------
+\def\spaceforrole{ }
+\definecolor{lightyellow}{cmyk}{0.00, 0.05, 0.20, 0.00} % Highlights
+\sethlcolor{lightyellow} % Highlights
+
+%--------------- Custom commands -----------------------
+{% raw %}
+\newcommand{\sectionspace}{\vspace{-20pt}}
+\newcommand{\subheadingtitlevspace}{\vspace{-3pt}}
+\newcommand{\resumeItem}[1]{\item{{#1 \vspace{-4pt}}}}
+\newcommand{\titleItem}[1]{\textbf{#1}}
+
+\newcommand{\resumeSubheading}[4]{
+  \item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}l@{}l}
+      {#1} & \titleItem{#3} | {#2} & \textit{#4}\\
+    \end{tabular*}\vspace{-10pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      #1 & \textit{ #2} \\
+    \end{tabular*}\vspace{-9pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\subheadingtitlevspace\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-8pt}}
+{% endraw %}
+
+%-------------------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------------------------------
+
+\begin{document}
+
+%----------HEADING---------------------
+\begin{flushleft}
+    \textbf{\Large {{ name }}} \\
+    \textit{ {{ location }} } $|$
+    \textit{ {{ phone }} } $|$
+    {% raw %}
+    \href{ {{ portfolio }} }{{\textit{Portfolio}}} $|$
+    {% endraw %}
+    {% raw %}
+    \href{mailto:{{ email }} }{{\textit{ {{ email }} }}} $|$
+    {% endraw %}
+    {% raw %}
+    \href{ {{ linkedin }} }{{\textit{LinkedIn}}} $|$
+    {% endraw %}
+    {% raw %}
+    \href{ {{ github }} }{{\textit{GitHub}}}
+    {% endraw %}
+    \vspace{-8pt}
+\end{flushleft}
+
+%---------- PROFESSIONAL SUMMARY ------
+\section{Professional Summary}
+\vspace{-3pt}
+\begin{itemize}[leftmargin=0.15in, label={}]
+    {\item{
+     {{ summary }}
+    }}
+\end{itemize}
+\sectionspace
+
+%----------TECHNICAL SKILLS------------
+\section{Technical Skills}
+\subheadingtitlevspace
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    {\item{
+        {% for category, skills in technical_skills.items() %}
+            \titleItem{ {{ category }} }{: {{ skills | join(', ') }} } \\
+        {% endfor %}
+    }}
+ \end{itemize}
+\sectionspace
+
+%----------EXPERIENCE------------------
+\section{Experience}
+  \resumeSubHeadingListStart
+    {% for job in experience %}
+      \resumeProjectHeading
+        {\titleItem{ {{ job.role }} } $|$ \emph{ {{ job.company }} }}{ {{ job.start_date }} -- {{ job.end_date }} }
+      \resumeItemListStart
+        {% for item in job.description %}
+            \resumeItem{ {{ item }} }
+        {% endfor %}
+      \resumeItemListEnd
+    {% endfor %}
+  \resumeSubHeadingListEnd
+
+%----------INTERNSHIPS------------------
+{% if internships %}
+\section{Internships}
+  \resumeSubHeadingListStart
+    {% for intern in internships %}
+        \resumeProjectHeading
+            {\titleItem{ {{ intern.role }} } $|$ \emph{ {{ intern.company }} }}{ {{ intern.start_date }} -- {{ intern.end_date }} }
+        \resumeItemListStart
+            {% for item in intern.description %}
+                \resumeItem{ {{ item }} }
+            {% endfor %}
+        \resumeItemListEnd
+    {% endfor %}
+  \resumeSubHeadingListEnd
+{% endif %}
+
+%----------EDUCATION-------------------
+\section{Education}
+  \resumeSubHeadingListStart
+    {% for edu in education %}
+        \resumeSubheading
+          { {{ edu.university }} }{ {{ edu.gpa }} }
+          { {{ edu.degree }} }{ {{ edu.start_date }} -- {{ edu.end_date }} }
+    {% endfor %}
+  \resumeSubHeadingListEnd
+\vspace{-8pt}
+
+%----------PROJECTS--------------------
+ \section{Projects}
+    \resumeSubHeadingListStart
+        {% for project in projects %}
+            \resumeProjectHeading
+                {\titleItem{ {{ project.title }} } $|$ \emph{ {{ project.tech }} }}{ {{ project.date }} }
+            \resumeItemListStart
+                {% for item in project.description %}
+                    \resumeItem{ {{ item }} }
+                {% endfor %}
+            \resumeItemListEnd
+        {% endfor %}
+    \resumeSubHeadingListEnd
+
+%----------PUBLICATIONS----------------
+{% if publications %}
+\section{Publications}
+    \resumeSubHeadingListStart
+        {% for pub in publications %}
+            \resumeProjectHeading
+                {% raw %}
+                {\titleItem{\href{ {{ pub.url }} }{{\textit{ {{ pub.title }} }}} $|$} $|$ \emph{ {{ pub.venue }} } }{ {{ pub.date }} }
+                {% endraw %}
+            \resumeItemListStart
+                {% for item in pub.description %}
+                    \resumeItem{ {{ item }} }
+                {% endfor %}
+            \resumeItemListEnd
+        {% endfor %}
+    \resumeSubHeadingListEnd
+{% endif %}
+
+%-------------------------------------------
+\end{document}

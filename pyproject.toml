@@ -1,0 +1,10 @@
+[project]
+name = "resume-builder-cli"
+version = "1.0.0"
+requires-python = ">=3.7"
+dependencies = [
+    "Jinja2",
+]
+
+[project.scripts]
+resume-builder = "resume_builder:main"
